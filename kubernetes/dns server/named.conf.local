@@ -1,0 +1,9 @@
+zone "virtual.lan" {
+        type master;
+        file "/etc/bind/db.virtual.lan";
+};
+
+zone "140.168.192.in-addr.arpa" {
+        type master;
+        file "/etc/bind/db.192.168.140";
+};

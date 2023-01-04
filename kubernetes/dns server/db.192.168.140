@@ -1,0 +1,16 @@
+$TTL	604800
+@	IN	SOA	ns1.virtual.lan. admin.virtual.lan. (
+			      4		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+
+; nameservers
+@	 IN	NS	ns1.virtual.lan.
+
+; domains
+134      IN      PTR     ns1.virtual.lan.
+2        IN      PTR     dhcp1.virtual.lan.
+200	     IN	     PTR	 lb.virtual.lan.
+201	     IN	     PTR	 dashboard.virtual.lan.

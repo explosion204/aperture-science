@@ -1,0 +1,13 @@
+# Reference: https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-14-04
+
+# install
+sudo apt install bind9 bind9utils bind9-doc
+
+# edit files from this folder and substitute them in /etc/bind
+# DO NOT FORGET to increment serial on every file modification BEFORE service restart
+
+# restart service
+sudo systemctl restart bind9
+
+# check everything is fine
+sudo systemctl status bind9
