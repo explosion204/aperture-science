@@ -1,0 +1,22 @@
+server:
+  http2:
+    enabled: true
+
+spring:
+  application:
+    name: test-java-app
+
+  thymeleaf:
+    template-resolver-order: 1
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+
+  jackson:
+    mapper:
+      default-view-inclusion: false
+
+feature:
+  use-formatters:
+    enabled: true

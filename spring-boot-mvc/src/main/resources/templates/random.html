@@ -1,0 +1,18 @@
+<form method="get" action="/random">
+    <label for="start">Start value:</label>
+    <input id="start" name="start" type="number" th:value="${request.start}">
+    <label for="end">End value:</label>
+    <input id="end" name="end" type="number" th:value="${request.end}">
+    <input type="submit" value="Get random number">
+</form>
+<div th:if="${result} != null and ${errorMessages.isEmpty()}">
+    Random number is
+    <span th:text="${result}"></span>
+</div>
+<div th:if="not ${errorMessages.isEmpty()}" th:remove="tag">
+    <div>Validation errors:</div>
+    <div th:each="errorMessage : ${errorMessages}">
+        <div th:text="${errorMessage}"></div>
+    </div>
+</div>
+<div>Request date: <span th:text="${requestDate}"></span></div>
