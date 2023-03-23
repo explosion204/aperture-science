@@ -1,15 +1,14 @@
-import Header from "./components/Header";
-import Items from "./components/Items";
-import AddItem from "./components/AddItem";
+import Header from './components/Header';
+import Items from './components/Items';
+import AddItem from './components/AddItem';
 import About from './components/About';
-import { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
-import ItemDetails from "./components/ItemDetails";
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ItemDetails from './components/ItemDetails';
 
 const App = () => {
   const [items, setItems] = useState([]);
   const [formIsVisible, setFormIsVisible] = useState(false);
-  const params = useParams();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -61,9 +60,9 @@ const App = () => {
   };
 
   return (
-    <div className="container h-100 w-100">
+    <div className='container h-100 w-100'>
       <BrowserRouter>
-        <Header text="Items" formIsVisible={formIsVisible} onButtonClick={onHeaderButtonClick} />
+        <Header text='Items' formIsVisible={formIsVisible} onButtonClick={onHeaderButtonClick} />
         <Routes>
           <Route path='/' element={
             <>

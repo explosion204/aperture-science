@@ -6,14 +6,14 @@ const Header = ({ text, formIsVisible, onButtonClick }) => {
     const location = useLocation();
 
     return (
-        <header className="d-flex align-items-center w-100 h-25 shadow-sm p-2 mb-4">
+        <header className='d-flex align-items-center w-100 h-25 shadow-sm p-2 mb-4'>
             <h1>{text}</h1>
             <hr/>
             { 
                 location.pathname === '/' &&
-                <Button text={formIsVisible ? "Close" : "Add"}
+                <Button text={formIsVisible ? 'Close' : 'Add'}
                         color={formIsVisible ? "red" : "green"}
-                        btnClass="ms-auto"
+                        btnClass='ms-auto'
                         onClick={onButtonClick}/>
             }
             {
