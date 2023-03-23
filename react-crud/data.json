@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "title1",
+      "description": "desc1",
+      "marked": false
+    },
+    {
+      "id": 2,
+      "title": "title2",
+      "description": "desc2",
+      "marked": false
+    },
+    {
+      "id": 3,
+      "title": "title3",
+      "description": "desc3",
+      "marked": true
+    },
+    {
+      "title": "new",
+      "description": "new",
+      "marked": false,
+      "id": 4
+    }
+  ]
+}
