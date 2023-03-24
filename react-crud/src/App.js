@@ -2,74 +2,92 @@ import Header from './components/Header';
 import Items from './components/Items';
 import AddItem from './components/AddItem';
 import About from './components/About';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ItemDetails from './components/ItemDetails';
 
+const ITEM_ACTIONS = {
+  INIT: 'init-items',
+  ADD: 'add-item',
+  UPDATE: 'update-item',
+  DELETE: 'delete-item'
+};
+
+const changeItem = async (items, action) => {
+  console.log(action);
+  switch (action.type) {
+    case ITEM_ACTIONS.INIT: {
+      return action.items;
+    }
+
+    case ITEM_ACTIONS.ADD: {
+      const response = await fetch('http://localhost:5000/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(action.item)
+      });
+  
+      const addedItem = await response.json();
+      return [...items, addedItem];
+    }
+
+    case ITEM_ACTIONS.UPDATE: {
+      const response = await fetch(`http://localhost:5000/items/${action.item.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(action.item)
+      });
+  
+      const updatedItem = await response.json();
+      return items.map(i => i.id === updatedItem.id ? updatedItem : i, items);
+    }
+
+    case ITEM_ACTIONS.DELETE: {
+      await fetch(`http://localhost:5000/items/${action.id}`, {
+        method: 'DELETE'
+      })
+  
+      return items.filter(i => i.id !== action.id);
+    }
+  }
+};
+
 const App = () => {
-  const [items, setItems] = useState([]);
-  const [formIsVisible, setFormIsVisible] = useState(false);
+  const [items, dispatchItems] = useReducer(changeItem, []);
+  const [formVisibility, setFormVisibility] = useState(() => false);
 
   useEffect(() => {
     const fetchItems = async () => {
       const response = await fetch('http://localhost:5000/items');
       const fetchedItems = await response.json();
-      setItems(fetchedItems);
+      console.log(fetchedItems);
+      dispatchItems(items, { type: ITEM_ACTIONS.INIT, payload: fetchedItems })
     };
 
     fetchItems();
   }, []);
 
-  const deleteItem = async id => {
-    await fetch(`http://localhost:5000/items/${id}`, {
-      method: 'DELETE'
-    })
-    const updatedItems = items.filter(i => i.id !== id);
-    setItems(updatedItems);
-  };
-
-  const updateItem = async item => {
-    const response = await fetch(`http://localhost:5000/items/${item.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(item)
-    });
-
-    const updatedItem = await response.json();
-    const updatedItems = items.map(i => i.id === item.id ? updatedItem : i, items);
-    setItems(updatedItems);
-  };
-
-  const addItem = async item => {
-    const response = await fetch('http://localhost:5000/items', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(item)
-    });
-
-    const newItem = await response.json();
-    setItems([...items, newItem]);
-  };
-
-  const onHeaderButtonClick = () => {
-    setFormIsVisible(!formIsVisible);
+  const toggleFormVisibilty = () => {
+    setFormVisibility(visibility => !visibility);
   };
 
   return (
     <div className='container h-100 w-100'>
       <BrowserRouter>
-        <Header text='Items' formIsVisible={formIsVisible} onButtonClick={onHeaderButtonClick} />
+        <Header text='Items' formIsVisible={formVisibility} onButtonClick={toggleFormVisibilty} />
         <Routes>
           <Route path='/' element={
             <>
-              {formIsVisible && <AddItem onAdd={addItem} />}
+              {formVisibility && <AddItem onAdd={newItem => dispatchItems(items, { type: ITEM_ACTIONS.ADD, item: newItem })} />}
               {
                 items.length > 0
-                  ? <Items items={items} onDelete={deleteItem} onUpdate={updateItem} />
+                  ? <Items items={items} 
+                           onDelete={deletedId => dispatchItems(items, { type: ITEM_ACTIONS.DELETE, id: deletedId })} 
+                           onUpdate={updatedItem => dispatchItems(items, { type: ITEM_ACTIONS.UPDATE, item: updatedItem })} />
                   : 'Nothing to show'
               }
             </>

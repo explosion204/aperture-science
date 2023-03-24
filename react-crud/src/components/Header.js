@@ -24,7 +24,6 @@ const Header = ({ text, formIsVisible, onButtonClick }) => {
                         <Button text='Go back' color='green' btnClass='ms-auto'/>
                     </Link>
             }
-
         </header>
     )
 };
