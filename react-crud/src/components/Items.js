@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
 import Item from "./Item";
+import { useItemContext } from '../contexts/ItemContext';
 
-const Items = ({ items, onDelete, onUpdate }) => {
+const Items = () => {
+    const { items } = useItemContext();
+
     return (
-        items.map(i => <Item key={i.id} item={i} onDelete={onDelete} onUpdate={onUpdate}/>)
+        items.length > 0 ? items.map(i => <Item key={i.id} item={i}/>) : 'Nothing to show'
     );
-};
-
-Items.propTypes = {
-    items: PropTypes.array,
-    onDelete: PropTypes.func,
-    onMark: PropTypes.func
 };
 
 export default Items;

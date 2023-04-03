@@ -2,11 +2,14 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 import { FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { useItemContext } from '../contexts/ItemContext';
 
-const Item = ({ item, onDelete, onUpdate }) => {
+const Item = ({ item }) => {
+    const { onItemUpdate, onItemDelete } = useItemContext();
     const markItem = () => {
         item.marked = !item.marked;
-        onUpdate(item);
+        onItemUpdate(item);
     };
 
     return (
@@ -16,7 +19,7 @@ const Item = ({ item, onDelete, onUpdate }) => {
                     <h5 className='card-title'>{item.title}</h5>
                     <FaTimes className='ms-auto' 
                              style={{ cursor: 'pointer', color: 'red' }}
-                             onClick={() => onDelete(item.id)}/>
+                             onClick={() => onItemDelete(item.id)}/>
                 </div>
                 <p className='card-text'>{item.description}</p>
 
@@ -34,9 +37,7 @@ const Item = ({ item, onDelete, onUpdate }) => {
 };
 
 Item.propTypes = {
-    items: PropTypes.object,
-    onDelete: PropTypes.func,
-    onUpdate: PropTypes.func
+    items: PropTypes.object
 };
 
 export default Item;

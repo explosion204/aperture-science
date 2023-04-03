@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useItemContext } from '../contexts/ItemContext';
 
-const AddItem = ({onAdd}) => {
+const AddItem = () => {
+    const { onItemAdd } = useItemContext();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     
@@ -16,7 +17,7 @@ const AddItem = ({onAdd}) => {
             return;
         }
 
-        onAdd({ title, description, marked: false });
+        onItemAdd({ title, description, marked: false });
         setTitle('');
         setDescription('');
     };
@@ -43,10 +44,6 @@ const AddItem = ({onAdd}) => {
                    value='Save'/>
         </form>
     )
-};
-
-AddItem.propTypes = {
-    onAdd: PropTypes.func
 };
 
 export default AddItem;

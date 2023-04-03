@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useItemContext } from '../contexts/ItemContext';
 
-const ItemDetails = ({ items }) => {
+const ItemDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { items } = useItemContext();
     const item = items.find(i => i.id == id);
     
     if (!item) {
@@ -28,10 +29,6 @@ const ItemDetails = ({ items }) => {
             <h1>Put your ads here</h1>
         </>
     );
-};
-
-ItemDetails.propTypes = {
-    item: PropTypes.object
 };
 
 export default ItemDetails;
